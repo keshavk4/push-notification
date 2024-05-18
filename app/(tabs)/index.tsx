@@ -1,9 +1,40 @@
-import { Image, StyleSheet, Platform } from 'react-native';
+import { Image, StyleSheet, Platform, Button } from 'react-native';
 
 import { HelloWave } from '@/components/HelloWave';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
+import { PermissionsAndroid } from 'react-native';
+import { LogLevel, OneSignal } from 'react-native-onesignal';
+// import Constants from "expo-constants";
+
+OneSignal.Debug.setLogLevel(LogLevel.Verbose);
+OneSignal.initialize("<APP_ID>");
+
+// Also need enable notifications to complete OneSignal setup
+// OneSignal.Notifications.requestPermission(true);
+
+const requestNotificationPermission = async () => {
+  try {
+    const granted = await PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS,
+      {
+        title: 'Notification Permission',
+        message: 'Testing Notification Permission',
+        buttonNeutral: 'Ask Me Later',
+        buttonNegative: 'Cancel',
+        buttonPositive: 'OK',
+      },
+    );
+    if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+      console.log('Permission granted');
+    } else {
+      console.log('Permission denied');
+    }
+  } catch (err: any) {
+    console.log(err);
+  }
+};
 
 export default function HomeScreen() {
   return (
@@ -45,6 +76,14 @@ export default function HomeScreen() {
           <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
           <ThemedText type="defaultSemiBold">app-example</ThemedText>.
         </ThemedText>
+      </ThemedView>
+      <ThemedView style={styles.stepContainer}>
+      <ThemedText type="subtitle">Testing</ThemedText>
+        <ThemedText>Hello World!</ThemedText>
+      </ThemedView>
+      <ThemedView style={styles.stepContainer}>
+      <ThemedText type="subtitle">Testing</ThemedText>
+        <Button title="Request Permission" onPress={requestNotificationPermission} />
       </ThemedView>
     </ParallaxScrollView>
   );

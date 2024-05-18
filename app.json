@@ -13,7 +13,8 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.test.TestApp"
     },
     "android": {
       "adaptiveIcon": {
@@ -27,7 +28,11 @@
       "favicon": "./assets/images/favicon.png"
     },
     "plugins": [
-      "expo-router"
+      "expo-router",
+      "onesignal-expo-plugin",
+        {
+          "mode": "development"
+        }
     ],
     "experiments": {
       "typedRoutes": true
